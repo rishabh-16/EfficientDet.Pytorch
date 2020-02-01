@@ -8,7 +8,7 @@ import cv2
 def get_augumentation(phase, width=512, height=512, min_area=0., min_visibility=0.):
     list_transforms = []
     if phase == 'train':
-        # list_transforms.extend([
+        list_transforms.extend([
         #     albu.augmentations.transforms.LongestMaxSize(
         #         max_size=width, always_apply=True),
         #     albu.PadIfNeeded(min_height=height, min_width=width,
@@ -35,7 +35,7 @@ def get_augumentation(phase, width=512, height=512, min_area=0., min_visibility=
             albu.CLAHE(p=0.8),
             albu.HorizontalFlip(p=0.5),
             albu.VerticalFlip(p=0.5),
-        ])
+        ]),
     if(phase == 'test' or phase == 'valid'):
         list_transforms.extend([
             albu.Resize(height=height, width=width)
