@@ -9,17 +9,17 @@ import numpy as np
 
 
 class Maritime_Dataset(data.Dataset):
-    def __init__(self, root, bboxes_df, fileame_df,
-     transform=None, img_size = (1408,768)):
-        self.root = osp.join(root, image_set)
+    def __init__(self, root, bboxes_df, filename_df,
+     transform=None, img_size = (1080,1920)):
+        self.root = root
         self.transform = transform
         self.bboxes_df = bboxes_df
-        self.fileame_df = fileame_df
+        self.filename_df = filename_df
         self.H, self.W = img_size
 
     def __getitem__(self, index):
-        img_id = self.fileame_df.iloc[index,0]
-        bboxes = self.bboxes_df[self.bboxes_df.image_id == img_id]
+        img_id = self.filename_df.iloc[index,0]
+        bboxes = self.bboxes_df[self.bboxes_df.fname == img_id]
 
         img = cv2.imread(osp.join(self.root, img_id))
         
@@ -31,10 +31,9 @@ class Maritime_Dataset(data.Dataset):
             img = augmentation['image']
             bbox = augmentation['bboxes']
             labels = augmentation['category_id']
-
-
+#         print(bbox)
         return {'image': img, 'bboxes': bbox, 'category_id': labels} 
 
 
     def __len__(self):
-        return len(self.fileame_df)
+        return len(self.filename_df)
